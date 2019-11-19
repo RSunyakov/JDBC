@@ -1,17 +1,10 @@
 package ru.javalab.socketsapp.clients;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.javalab.socketsapp.models.LoginCommand;
-import ru.javalab.socketsapp.models.Request;
-import ru.javalab.socketsapp.models.User;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ChatClient {
     private Socket clientSocket;
@@ -43,12 +36,8 @@ public class ChatClient {
         }
     };
 
-    public void sendMessage(String message) {
-        writer.println(message);
-    }
-
-
     public void sendRequest(String json) {
         writer.println(json);
+        writer.flush();
     }
 }

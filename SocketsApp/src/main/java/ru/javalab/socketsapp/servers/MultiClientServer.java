@@ -1,9 +1,16 @@
 package ru.javalab.socketsapp.servers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import ru.javalab.socketsapp.models.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.javalab.socketsapp.models.*;
+import ru.javalab.socketsapp.models.command.LoginCommand;
+import ru.javalab.socketsapp.models.command.MessageCommand;
+import ru.javalab.socketsapp.models.command.PaginationCommand;
 import ru.javalab.socketsapp.programs.DbConnection;
+import ru.javalab.socketsapp.repositories.CrudMessagesRepositoryImpl;
 import ru.javalab.socketsapp.repositories.CrudRepositoryImpl;
+import ru.javalab.socketsapp.utils.HashPassword;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,17 +23,21 @@ import java.util.*;
 public class MultiClientServer {
     private ServerSocket serverSocket;
     private DbConnection dbConnection;
+    private CrudRepositoryImpl crudRepository;
+    private CrudMessagesRepositoryImpl crudMessagesRepository;
     private List<ClientHandler> clients;
 
     public void setDbConnection(DbConnection dbConnection) {
         this.dbConnection = dbConnection;
+       crudRepository = this.dbConnection.createCrudRepository();
+       crudMessagesRepository = this.dbConnection.createCrudMessagesRepository();
     }
 
     public MultiClientServer() {
         clients = new ArrayList<ClientHandler>();
     }
 
-    public List<ClientHandler> getClients() {
+    public  List<ClientHandler> getClients() {
         return clients;
     }
 
@@ -38,15 +49,14 @@ public class MultiClientServer {
         }
         while(true) {
             try {
-                ClientHandler handler = new ClientHandler(serverSocket.accept());
-                handler.start();
+                new ClientHandler(serverSocket.accept()).start();
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         }
     }
 
-    public void logoutUser(ClientHandler clientHandler) {
+    public  void logoutUser(ClientHandler clientHandler) {
         clients.remove(clientHandler);
     }
 
@@ -66,37 +76,76 @@ public class MultiClientServer {
         @Override
         public void run() {
             try {
-               for (ClientHandler client : clients) {
-
-                    PrintWriter writer = new PrintWriter(client.clientSocket.getOutputStream(), true);
-                    Scanner sc = new Scanner(new InputStreamReader(client.clientSocket.getInputStream()));
-                    writer.println("Введите имя пользователя: ");
-                    String login = sc.nextLine();
-                    writer.println("Введите пароль пользователя: ");
-                    String password = sc.nextLine();
-                    this.login(login, password);
-
-                }
                 reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    for (ClientHandler client : clients) {
-                        PrintWriter writer = new PrintWriter(client.clientSocket.getOutputStream(), true);
-                        writer.println(line);
-                        dbConnection.getCrudRepository().saveMessage(user, line);
-                    }
-                }
-                reader.close();
-                clientSocket.close();
+                    while ((line = reader.readLine()) != null) {
+                        PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+                        ObjectMapper mapper = new ObjectMapper();
+                            Request request = mapper.readValue(line, Request.class);
+                            switch (request.getHeader()) {
+                                case "login":
+                                    Request<LoginCommand> login = mapper.readValue(line, new TypeReference<Request<LoginCommand>>() {
+                                    });
+                                    Optional<User> user = crudRepository.find(login.getPayload().getName());
+                                    if (user.isPresent()) {
+                                        if (HashPassword.checkPassword(login.getPayload().getPassword(), user.get().getPassword())) {
+                                            this.user = user.get();
+                                            getClients().add(this);
+                                            writer.println("Добро пожаловать в чат!");
+                                        } else {
+                                            writer.println("Неверный логин или пароль");
+                                        }
+                                    } else {
+                                        this.user = new User(null, login.getPayload().getName(), login.getPayload().getPassword());
+                                        crudRepository.save(this.user);
+                                        getClients().add(this);
+                                        writer.println("Вы вошли в чат!");
+                                    }
+                                    break;
+                                case "logout":
+                                    logoutUser(this);
+                                    break;
+                                case "message":
+                                    Request<MessageCommand> message = mapper.readValue(line, new TypeReference<Request<MessageCommand>>() {
+                                    });
+                                    for (ClientHandler client : getClients()) {
+                                        if (!client.equals(this)) {
+                                            writer = new PrintWriter(client.clientSocket.getOutputStream(), true);
+                                            writer.println(client.user.getUsername() + ": " + message.getPayload().getMessage());
+                                        }
+                                    }
+                                    crudMessagesRepository.save(new Message(0, message.getPayload().getMessage(), this.user.getId(), null));
+                                    break;
+                                case "get-messages":
+                                    Request<PaginationCommand> pagination = mapper.readValue(line, new TypeReference<Request<PaginationCommand>>() {
+                                    });
+                                    Optional<List<Message>> messageList = crudMessagesRepository.find(pagination.getPayload().getPage());
+                                    if (messageList.isPresent()) {
+                                        for (int i = 0; i < messageList.get().size(); i++) {
+                                            writer.print("id: " + messageList.get().get(i).getId() + " message: " + messageList.get().get(i).getMessage() + " userId: " + messageList.get().get(i).getUserId() + " date: " + messageList.get().get(i).getDate().toString());
+                                            writer.println("");
+                                        }
+                                       /* writer.println(getJson(new PaginationResponse(messageList.get())));*/
+                                    } else {
+                                        writer.println("");
+                                    }
+                                    break;
+                            }
+                        }
+                    reader.close();
+                    clientSocket.close();
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         }
-
-        public void login(String username, String password) {
-            this.user = new User(null, username, password);
-            CrudRepositoryImpl crudRepository = dbConnection.createCrudRepository();
-            crudRepository.save(user);
+        private String getJson(Object o) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                return mapper.writeValueAsString(o);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 }

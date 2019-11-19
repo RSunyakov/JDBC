@@ -1,5 +1,6 @@
 package ru.javalab.socketsapp.programs;
 
+import ru.javalab.socketsapp.repositories.CrudMessagesRepositoryImpl;
 import ru.javalab.socketsapp.repositories.CrudRepositoryImpl;
 
 import java.sql.Connection;
@@ -10,7 +11,13 @@ import java.util.Properties;
 
 public class DbConnection {
     private List<String> properties;
+
+    public CrudMessagesRepositoryImpl getCrudMessagesRepository() {
+        return crudMessagesRepository;
+    }
+
     private CrudRepositoryImpl crudRepository;
+    private CrudMessagesRepositoryImpl crudMessagesRepository;
 
     public DbConnection(List<String> properties) {
         this.properties = properties;
@@ -20,7 +27,7 @@ public class DbConnection {
         return crudRepository;
     }
 
-    public Connection getConnection(List<String> properties) {
+    private Connection getConnection(List<String> properties) {
         String url = properties.get(properties.size() - 1);
         Properties props = new Properties();
         props.setProperty("user", properties.get(0));
@@ -34,8 +41,13 @@ public class DbConnection {
         return conn;
     }
 
-    public  CrudRepositoryImpl createCrudRepository() {
+    public CrudRepositoryImpl createCrudRepository() {
         this.crudRepository = new CrudRepositoryImpl(this.getConnection(properties));
         return crudRepository;
+    }
+
+    public CrudMessagesRepositoryImpl createCrudMessagesRepository() {
+        this.crudMessagesRepository = new CrudMessagesRepositoryImpl(this.getConnection(properties));
+        return crudMessagesRepository;
     }
 }

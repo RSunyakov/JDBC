@@ -1,4 +1,4 @@
-package ru.javalab.socketsapp.models;
+package ru.javalab.socketsapp.models.command;
 
 public class PaginationCommand {
     private int page;

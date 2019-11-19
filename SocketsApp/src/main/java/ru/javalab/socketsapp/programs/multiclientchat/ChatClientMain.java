@@ -3,9 +3,9 @@ package ru.javalab.socketsapp.programs.multiclientchat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.javalab.socketsapp.clients.ChatClient;
-import ru.javalab.socketsapp.models.LoginCommand;
-import ru.javalab.socketsapp.models.MessageCommand;
-import ru.javalab.socketsapp.models.PaginationCommand;
+import ru.javalab.socketsapp.models.command.LoginCommand;
+import ru.javalab.socketsapp.models.command.MessageCommand;
+import ru.javalab.socketsapp.models.command.PaginationCommand;
 import ru.javalab.socketsapp.models.Request;
 
 import java.util.Scanner;
@@ -28,22 +28,21 @@ public class ChatClientMain {
             client.sendRequest(getJson(loginRequest));
         }
         boolean isFinish = false;
-        while(isFinish) {
+        while (!isFinish) {
             String text = sc.nextLine();
             if (text.equals("/logout")) {
                 Request logoutRequest = new Request<>("logout", null);
                 client.sendRequest(getJson(logoutRequest));
                 isFinish = true;
-            }
-            if (text.contains("/get-messages")) {
-                int page = Integer.parseInt(text.substring(text.lastIndexOf("/") + 1, text.length()));
-                Request<PaginationCommand> paginationRequest = new Request<>("get-messages", new PaginationCommand(page));
+            } else if (text.contains("/get-messages")) {
+                int page = Integer.parseInt(text.substring(text.lastIndexOf("s") + 2, text.length()));
+                Request<PaginationCommand> paginationRequest = new Request<>("get-messages",
+                        new PaginationCommand(page));
                 client.sendRequest(getJson(paginationRequest));
+            } else {
+                Request<MessageCommand> messageRequest = new Request<>("message", new MessageCommand(text));
+                client.sendRequest(getJson(messageRequest));
             }
-            Request<MessageCommand> messageRequest = new Request<>("message", new MessageCommand(text));
-            client.sendRequest(getJson(messageRequest));
-            /*client.sendMessage(text);*/
-
         }
     }
 
