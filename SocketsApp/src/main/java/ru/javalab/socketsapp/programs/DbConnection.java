@@ -1,6 +1,8 @@
 package ru.javalab.socketsapp.programs;
 
+import ru.javalab.socketsapp.repositories.CrudCartRepositoryImpl;
 import ru.javalab.socketsapp.repositories.CrudMessagesRepositoryImpl;
+import ru.javalab.socketsapp.repositories.CrudProductRepositoryImpl;
 import ru.javalab.socketsapp.repositories.CrudRepositoryImpl;
 
 import java.sql.Connection;
@@ -12,12 +14,11 @@ import java.util.Properties;
 public class DbConnection {
     private List<String> properties;
 
-    public CrudMessagesRepositoryImpl getCrudMessagesRepository() {
-        return crudMessagesRepository;
-    }
 
     private CrudRepositoryImpl crudRepository;
     private CrudMessagesRepositoryImpl crudMessagesRepository;
+    private CrudCartRepositoryImpl crudCartRepository;
+    private CrudProductRepositoryImpl crudProductRepository;
 
     public DbConnection(List<String> properties) {
         this.properties = properties;
@@ -49,5 +50,27 @@ public class DbConnection {
     public CrudMessagesRepositoryImpl createCrudMessagesRepository() {
         this.crudMessagesRepository = new CrudMessagesRepositoryImpl(this.getConnection(properties));
         return crudMessagesRepository;
+    }
+
+    public CrudProductRepositoryImpl createCrudProductRepository() {
+        this.crudProductRepository = new CrudProductRepositoryImpl(this.getConnection(properties));
+        return crudProductRepository;
+    }
+
+    public CrudCartRepositoryImpl createCrudCartRepository() {
+        this.crudCartRepository = new CrudCartRepositoryImpl(this.getConnection(properties));
+        return crudCartRepository;
+    }
+
+    public CrudMessagesRepositoryImpl getCrudMessagesRepository() {
+        return crudMessagesRepository;
+    }
+
+    public CrudCartRepositoryImpl getCrudCartRepository() {
+        return crudCartRepository;
+    }
+
+    public CrudProductRepositoryImpl getCrudProductRepository() {
+        return crudProductRepository;
     }
 }

@@ -6,7 +6,19 @@ public class Message {
     private int id;
     private String message;
     private int userId;
+    private String username;
     private Date date;
+
+    public Message() {
+    }
+
+    public Message(String username, int id, String message, int userId, Date date) {
+        this.username = username;
+        this.id = id;
+        this.message = message;
+        this.userId = userId;
+        this.date = date;
+    }
 
     public Message(int id, String message, int userId, Date date) {
         this.id = id;
@@ -45,5 +57,13 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

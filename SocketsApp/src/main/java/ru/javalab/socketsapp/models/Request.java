@@ -3,6 +3,7 @@ package ru.javalab.socketsapp.models;
 public class Request<T> {
     private String header;
     private T payload;
+    private String token;
 
     public Request() {
     }
@@ -26,5 +27,13 @@ public class Request<T> {
 
     public void setPayload(T payload) {
         this.payload = payload;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -4,19 +4,21 @@ public class User {
     private Integer id;
     private String username;
     private String password;
+    private int role;
 
-    public User(Integer id, String username, String password) {
+    public User(Integer id, String username, String password, int role) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public int getRole() {
+        return role;
     }
 
-    public User() {
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public Integer getId() {

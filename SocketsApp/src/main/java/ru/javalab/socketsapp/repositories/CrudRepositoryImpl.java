@@ -20,7 +20,8 @@ public class CrudRepositoryImpl implements CrudRepository<User> {
             new User(
                     rs.getInt("id"),
                     rs.getString("username"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    rs.getInt("role")
             );
 
     @Override
