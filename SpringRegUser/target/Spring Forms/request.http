@@ -1,0 +1,7 @@
+###
+POST http://localhost:8080/SpringRegUser_war/api/users-management/users
+Content-Type: application/json
+
+{"id":3 ,"birthday":"2000-09-26"}
+
+###

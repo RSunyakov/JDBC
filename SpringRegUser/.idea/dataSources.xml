@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="postgres@localhost" uuid="f7425aa0-a6de-49a2-9abe-ce1135c7aee4">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="springuser@localhost" uuid="c7dde344-1b23-4df1-8a25-175696da2472">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/springuser</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="aws" uuid="5839e66b-b5ca-46ba-a6ae-8cdd11258c8a">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://vkwords.c4nxasctso4c.us-east-1.rds.amazonaws.com:5432/vkwords</jdbc-url>
+    </data-source>
+  </component>
+</project>
