@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import ru.springuser.security.authprovider.RussianAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier(value = "customUserDetailsService")
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    RussianAuthenticationProvider russianAuthenticationProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -43,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.authenticationProvider(russianAuthenticationProvider).userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
 }
