@@ -27,13 +27,13 @@ public class RussianAuthenticationProvider implements AuthenticationProvider {
 
 
     @Autowired
-    UsersRepository repository;
+    private UsersRepository repository;
 
     @Autowired
-    PasswordEncoder encoder;
+   private PasswordEncoder encoder;
 
     @Autowired
-    DatabaseReader databaseReader;
+   private DatabaseReader databaseReader;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
