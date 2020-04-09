@@ -1,0 +1,23 @@
+POST http://localhost:8090/Rest/api/signIn
+Content-Type: application/json
+
+{
+  "email" : "srr1772@mail.ru",
+  "password" : "SRr729038"
+  }
+
+###
+
+GET http://localhost:8090/Rest/api/users-management/users
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6InNycjE3NzJAbWFpbC5ydSIsInJvbGUiOiJVU0VSIn0.GOadz__DbdTa_Z-gijovE6Nt1bbboM6XE7nue_EQk5k
+###
+
+GET http://localhost:8090/Rest/api/auditorium-management/auditoriums
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6InNycjE3NzJAbWFpbC5ydSIsInJvbGUiOiJVU0VSIn0.GOadz__DbdTa_Z-gijovE6Nt1bbboM6XE7nue_EQk5k
+
+###
+
+GET http://localhost:8090/Rest/api/markers-management/markers
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6InNycjE3NzJAbWFpbC5ydSIsInJvbGUiOiJVU0VSIn0.GOadz__DbdTa_Z-gijovE6Nt1bbboM6XE7nue_EQk5k
+
+###
