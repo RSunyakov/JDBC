@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/signIn
+Content-Type: application/json
+
+{
+  "email" : "srr1772@mail.ru",
+  "password" : "SRr729038"
+  }
+
+###
