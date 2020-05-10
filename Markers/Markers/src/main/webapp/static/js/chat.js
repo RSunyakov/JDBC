@@ -27,7 +27,7 @@ function receiveMessage(userId) {
         contentType: "application/json",
         success: function (response) {
             response.forEach(function (element) {
-                $('#messages').first().after('<li>' + element['text'] + '</li>');
+                $('#messages').first().after('<li class="list-group-item">' + element['text'] + '</li>');
             });
             receiveMessage(userId);
         }

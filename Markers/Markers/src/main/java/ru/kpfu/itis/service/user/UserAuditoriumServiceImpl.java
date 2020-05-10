@@ -22,12 +22,10 @@ public class UserAuditoriumServiceImpl implements UserAuditoriumService {
     UsersRepository usersRepository;
 
     @Override
-    public void add(Authentication authentication, Auditorium auditorium) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    public void add(User user, Auditorium auditorium) {
         Optional<Auditorium> auditoriumOptional = auditoriumRepository.findByName(auditorium.getName());
         if (auditoriumOptional.isPresent()) {
             auditorium = auditoriumOptional.get();
-            User user = userDetails.getUser();
             for (User auditoriumUser : auditorium.getUsers()) {
                 if (auditoriumUser.getId() == user.getId()) return;
             }

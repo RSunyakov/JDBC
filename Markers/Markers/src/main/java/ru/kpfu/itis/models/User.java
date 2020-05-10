@@ -1,14 +1,13 @@
 package ru.kpfu.itis.models;
 
 import lombok.*;
-import org.springframework.context.annotation.Bean;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -17,33 +16,31 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @ToString
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Size(min = 5, message = "Password must be longer, than 5 symbols")
     private String hashPassword;
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
 
-    @NotNull
     private String gender;
 
     @ToString.Exclude
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_auditorium", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "auditorium_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_auditorium", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"))
     private List<Auditorium> auditoriumList;
 
-    @NotNull
+    @OneToMany(mappedBy = "user")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Message> messages;
+
     private String typeOfStudent;
 
     @Enumerated(value = EnumType.STRING)

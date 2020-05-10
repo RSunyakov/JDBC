@@ -15,6 +15,7 @@ public class ChatController {
     @PreAuthorize("isAuthenticated()")
     public String getChatPage(Model model, Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        model.addAttribute("userName", userDetails.getUser().getFirstName() + " " + userDetails.getUser().getLastName());
         model.addAttribute("userId", userDetails.getUser().getId());
         return "chat";
     }

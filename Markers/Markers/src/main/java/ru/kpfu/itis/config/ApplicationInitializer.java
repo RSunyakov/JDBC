@@ -38,7 +38,6 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
                 new DispatcherServlet(appContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
-
         dispatcher.setInitParameter("contextClass", appContext.getClass().getName());
 
         servletContext.addListener(new ContextLoaderListener(appContext));

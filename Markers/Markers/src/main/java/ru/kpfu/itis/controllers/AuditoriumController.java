@@ -39,7 +39,7 @@ public class AuditoriumController {
     @RequestMapping(value = "/auditorium/{name}/addMarker", method = RequestMethod.POST)
     public String addMarker(@PathVariable("name") String name, @ModelAttribute("marker") Marker marker, RedirectAttributes redirectAttributes, Model model) {
         editMarkerService.addMarkerToAuditorium(marker, auditoriumService.getAuditorium(name));
-        redirectAttributes.addFlashAttribute("message", "<span style=\"color:green\">Маркер \"" + marker.getColor() + "\" цвета добавлен в аудиторию</span>");
+        redirectAttributes.addFlashAttribute("message", "Маркер \"" + marker.getColor() + "\"  добавлен в аудиторию");
         return "redirect:" + "/auditorium/" + name;
     }
 

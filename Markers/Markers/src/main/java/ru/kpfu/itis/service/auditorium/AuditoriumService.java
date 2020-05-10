@@ -10,4 +10,5 @@ public interface AuditoriumService {
     List<AuditoriumDto> getAllAuditoriums();
     void deleteAuditorium(Long auditoriumId);
     public AuditoriumDto getAuditorium(Long auditoriumId);
+    List<String> getAllNamesOfAuditoriums();
 }

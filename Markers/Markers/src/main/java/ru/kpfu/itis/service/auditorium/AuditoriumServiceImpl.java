@@ -6,6 +6,7 @@ import ru.kpfu.itis.dto.AuditoriumDto;
 import ru.kpfu.itis.models.Auditorium;
 import ru.kpfu.itis.repositories.auditorium.AuditoriumRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,15 @@ public class AuditoriumServiceImpl implements AuditoriumService{
         } else {
             throw new IllegalArgumentException("Wrong id for auditorium");
         }
+    }
+
+    @Override
+    public List<String> getAllNamesOfAuditoriums() {
+        List<AuditoriumDto> auditoriums = getAllAuditoriums();
+        List<String> names = new ArrayList<>();
+        for(AuditoriumDto auditorium : auditoriums) {
+            names.add(auditorium.getName());
+        }
+        return names;
     }
 }

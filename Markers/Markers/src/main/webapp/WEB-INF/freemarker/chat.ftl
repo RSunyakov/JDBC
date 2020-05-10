@@ -13,18 +13,17 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="<@spring.url '/js/chat.js'/>"></script>
+    <link rel="stylesheet" href="<@spring.url '/css/bootstrap.css'/>">
 </head>
-<body onload="sendMessage('${userId}', 'Login')">
-<h1>Ваш идентификатор - ${userId}</h1>
-<div>
-    <input id="message" placeholder="Ваше сообщение">
-    <button onclick="sendMessage('${userId}',
+<body onload="sendMessage('${userId}', 'Login')" class="bg-light">
+<header><#include "header.ftl"></header>
+<h1 class="h3 mb-3 font-weight-normal">Добро пожаловать в чат, ${userName}</h1>
+    <input class="form-control" id="message" placeholder="Ваше сообщение">
+    <button class="btn btn-secondary btn-sm" onclick="sendMessage('${userId}',
             $('#message').val())">Отправить</button>
-</div>
-<div>
-    <ul id="messages">
+
+    <ul class="list-group" id="messages">
 
     </ul>
-</div>
 </body>
 </html>
