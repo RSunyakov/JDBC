@@ -1,0 +1,26 @@
+version: 3
+services:
+  db:
+    image: postgres
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=qwerty007
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=progect
+    volumes:
+      - "db-data: D://Docker/postgresql/data"
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    volumes:
+      - "files-storage: D://Docker/data"
+volumes:
+  db-data:
+  files-storage:

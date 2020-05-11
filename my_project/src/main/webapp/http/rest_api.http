@@ -1,0 +1,89 @@
+GET http://localhost:8080/api/sites-management/sites/2
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+
+###
+
+GET http://localhost:8080/api/sites-management/sites
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+
+###
+
+POST http://localhost:8080/api/sites-management/sites
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+{
+  "store_name": "HM",
+  "productsTag": "ul.products-listing.small"
+}
+
+
+
+###
+
+DELETE http://localhost:8080/api/sites-management/sites/19
+Accept: */*
+Cache-Control: no-cache
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+
+
+###
+PUT http://localhost:8080/api/sites-management/sites/13
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+{
+  "store_name": "H&M",
+  "productsTag": "ul.products-listing.small",
+  "productItemTag": "li.product-item",
+  "siteUrl": "https://www2.hm.com",
+  "productLinkTag": "a.link",
+  "productLink": "href",
+  "productImgTag": "img",
+  "productImg": "data-src",
+  "productName": "a.link",
+  "newPriceTag": "span.price.sale",
+  "oldPriceTag": "span.price.regular",
+  "hasJS": false
+}
+
+###
+
+POST http://localhost:8080/api/signIn
+Content-Type: application/json
+
+{
+  "email": "kamilla.hairul@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+GET http://localhost:8080/api/products-management/products
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+###
+GET http://localhost:8080/api/products-management/products/WOMAN?sort=3
+
+###
+POST http://localhost:8080/api/messages
+Content-Type: application/json
+
+{
+  "pageId": "8388-83264-55",
+  "text": "qwerty007"
+}
+
+###
+GET http://localhost:8080/api/messages?start=1&userId=101
+
+###
+GET http://localhost:8080/api/admin/support/users
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDEiLCJlbWFpbCI6ImthbWlsbGEuaGFpcnVsQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiJ9.E8gOxC7M1dyjX6UgxIRrRxDxvgbax-SVw3cqIg8gt2k
+
+###
+GET http://localhost:8080/api/messages/notify?userId=102
+
+###
