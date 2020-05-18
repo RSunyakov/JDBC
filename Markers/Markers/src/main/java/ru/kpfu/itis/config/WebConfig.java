@@ -31,6 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public freemarker.template.Configuration configuration() {
+        freemarker.template.Configuration configuration = freemarkerConfig().getConfiguration();
+        configuration.setEncoding(new Locale("ru"), "utf-8");
+        return configuration;
+    }
+
+    @Bean
     public ViewResolver viewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
         resolver.setPrefix("");

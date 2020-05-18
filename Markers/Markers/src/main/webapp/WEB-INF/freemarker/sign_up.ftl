@@ -15,7 +15,7 @@
 <div>
 <@spring.bind "signUpDto"/>
 <form action="<@spring.url '/signup'/>" method="POST" class="form-signup">
-    <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+    <h1 class="h3 mb-3 font-weight-normal"><@spring.message code="signup"></@spring.message></h1>
     Email:<br>
     <@spring.formInput "signUpDto.email" "class='form-control'" />
     <@spring.showErrors ""/>

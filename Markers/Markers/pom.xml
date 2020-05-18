@@ -108,6 +108,32 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.7.5</version>
     </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspect.. -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.11.0</version>
+    </dependency>
     <!-- Servlet + EJB Lite + JPA + JSP + EL + JSTL + JSF + JTA + JSR-45 + JSR-250 -->
     <!-- https://mvnrepository.com/artifact/javax.servlet/jsp-api -->
     <dependency>

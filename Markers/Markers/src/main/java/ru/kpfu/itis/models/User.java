@@ -49,4 +49,7 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy="user")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<File> files;
 }

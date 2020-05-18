@@ -73,6 +73,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
+                                <label>Количество файлов, которые загрузили на сервер: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>${filesCount.uploadsCount}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <label>Аудитории, которые вы отслеживаете</label>
                             </div>
                             <div class="col-md-6">

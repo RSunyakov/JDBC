@@ -1,15 +1,20 @@
 package ru.kpfu.itis.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -20,16 +25,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 @ComponentScan(basePackages = {"ru.kpfu.itis"})
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
+@EnableJpaRepositories("ru.kpfu.itis.repositories.users.jpa")
 public class RootConfig {
+
+    @Autowired
+    private Environment environment;
+
 
     @Bean
     public DataSource dataSource() {
@@ -37,6 +50,30 @@ public class RootConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         return dataSource;
     }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername(environment.getProperty("mail.email"));
+        mailSender.setPassword(environment.getProperty("mail.password"));
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
+    }
+
+    @Bean
+    public ExecutorService executorService() {
+        return Executors.newFixedThreadPool(3);
+    }
+
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
@@ -63,6 +100,11 @@ public class RootConfig {
         transactionManager.setEntityManagerFactory(entityManagerFactory);
 
         return transactionManager;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
     }
 
     @Bean

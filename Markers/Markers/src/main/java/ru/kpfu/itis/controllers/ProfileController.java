@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.kpfu.itis.models.Auditorium;
 import ru.kpfu.itis.security.details.UserDetailsImpl;
 import ru.kpfu.itis.service.auditorium.AuditoriumService;
+import ru.kpfu.itis.service.file.FileService;
 import ru.kpfu.itis.service.user.UserAuditoriumService;
 import ru.kpfu.itis.service.vkapi.VkApiService;
 
@@ -28,6 +29,8 @@ public class ProfileController {
 
     @Autowired
     private AuditoriumService auditoriumService;
+    @Autowired
+    private FileService fileService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -35,6 +38,7 @@ public class ProfileController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         model.addAttribute("user", userDetails.getUser());
         model.addAttribute("auditoriums", userDetails.getUser().getAuditoriumList());
+        model.addAttribute("filesCount", fileService.getFileInfo(userDetails.getUser().getEmail()));
         return "profile";
     }
 
