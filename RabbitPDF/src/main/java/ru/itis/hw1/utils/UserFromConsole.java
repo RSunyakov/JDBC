@@ -1,8 +1,11 @@
 package ru.itis.hw1.utils;
 
+import ru.itis.hw1.configuration.TemplateConfig;
 import ru.itis.hw1.models.User;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UserFromConsole {
@@ -18,6 +21,8 @@ public class UserFromConsole {
         long passportNumber = scanner.nextLong();
         System.out.println("Введите дату выдачи паспорта(dd/MM/yyyy): ");
         String dateOfIssue = scanner.next();
-        return new User(name, surname, age, passportNumber, dateOfIssue);
+        System.out.println("Введите email");
+        String email = scanner.next();
+        return new User(name, surname, age, passportNumber, dateOfIssue, email);
     }
 }

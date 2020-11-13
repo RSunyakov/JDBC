@@ -18,6 +18,7 @@ public class User implements Serializable {
    private int age;
    private long passportNumber;
    private String dateOfIssue;
+   private String email;
 
 
    public static byte[] serialize(User user) throws IOException {

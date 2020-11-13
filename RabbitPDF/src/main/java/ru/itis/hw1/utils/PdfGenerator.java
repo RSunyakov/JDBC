@@ -1,42 +1,51 @@
 package ru.itis.hw1.utils;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfString;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.List;
-import com.itextpdf.layout.element.ListItem;
-import com.itextpdf.layout.element.Paragraph;
-import com.rabbitmq.client.Delivery;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import ru.itis.hw1.configuration.TemplateConfig;
 import ru.itis.hw1.models.User;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class PdfGenerator {
-    public static void generatePdf(User user, String title) {
-        File file = new File("pdf/" + UUID.randomUUID().toString() + ".pdf");
+    public static String generatePdf(User user, String templateName) {
+        Map<String, User> root = new HashMap<>();
+        root.put("user", user);
         try {
-            PdfWriter writer = new PdfWriter(file);
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
-            pdf.getCatalog().setLang(new PdfString("ru-RU"));
-            document.add(new Paragraph(title));
-            List list = new List()
-                    .setSymbolIndent(12)
-                    .setListSymbol("*");
-            list.add(new ListItem("Name: " + user.getName()));
-            list.add(new ListItem("Surname: " + user.getSurname()));
-            list.add(new ListItem("Age: " + user.getAge()));
-            list.add(new ListItem("Passport number: " + user.getPassportNumber()));
-            list.add(new ListItem("Date of issue: " + user.getDateOfIssue()));
-            document.add(list);
-            document.close();
-            pdf.close();
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("File didn't find");
+            Configuration cfg = TemplateConfig.getConfiguration();
+            Template template = cfg.getTemplate(templateName + ".ftl");
+            FileWriter writer = new FileWriter(new File("templates/html/"+templateName + ".html"));
+            try {
+                template.process(root, writer);
+            } catch (TemplateException e) {
+                throw new IllegalArgumentException("Template error", e);
+            }
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Wrong templateName", e);
         }
+        String pdfPath = "pdf/" + UUID.randomUUID().toString() + ".pdf";
+        File file = new File(pdfPath);
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
+            document.open();
+            try {
+                XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream("templates/html/" + templateName + ".html"));
+                document.close();
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Failed to write to PDF");
+            }
+        } catch (DocumentException | FileNotFoundException e) {
+            throw new IllegalArgumentException("Failed to create pdf");
+        }
+        return pdfPath;
     }
 }

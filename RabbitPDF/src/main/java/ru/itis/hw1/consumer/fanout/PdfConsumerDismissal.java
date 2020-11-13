@@ -1,4 +1,4 @@
-package ru.itis.hw1;
+package ru.itis.hw1.consumer.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -7,12 +7,17 @@ import com.rabbitmq.client.DeliverCallback;
 import ru.itis.hw1.models.User;
 import ru.itis.hw1.utils.PdfGenerator;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
-public class PdfConsumerExpulsion {
+public class PdfConsumerDismissal {
+
     private final static String EXCHANGE_NAME = "pdf";
     private final static String EXCHANGE_TYPE = "fanout";
+    private final static String TEMPLATE_NAME = "dismissal";
 
     public static void main(String[] args) {
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -33,7 +38,7 @@ public class PdfConsumerExpulsion {
             DeliverCallback deliverCallback = (consumerTag, message) -> {
                 try {
                     User user = User.deserialize(message.getBody());
-                    PdfGenerator.generatePdf(user, "A statement on the expulsion");
+                    PdfGenerator.generatePdf(user, TEMPLATE_NAME);
                     channel.basicAck(message.getEnvelope().getDeliveryTag(), false);
                 } catch (ClassNotFoundException e) {
                     System.err.println("Deserialization failed");

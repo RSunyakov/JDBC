@@ -1,4 +1,4 @@
-package ru.itis.hw1;
+package ru.itis.hw1.consumer.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -13,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 public class PdfConsumerAcademic {
     private final static String EXCHANGE_NAME = "pdf";
     private final static String EXCHANGE_TYPE = "fanout";
+    private final static String TEMPLATE_NAME = "academic";
 
     public static void main(String[] args) {
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -33,7 +34,7 @@ public class PdfConsumerAcademic {
             DeliverCallback deliverCallback = (consumerTag, message) -> {
                 try {
                     User user = User.deserialize(message.getBody());
-                    PdfGenerator.generatePdf(user, "Application for academic leave");
+                    PdfGenerator.generatePdf(user, TEMPLATE_NAME);
                     channel.basicAck(message.getEnvelope().getDeliveryTag(), false);
                 } catch (ClassNotFoundException e) {
                     System.err.println("Deserialization failed");
