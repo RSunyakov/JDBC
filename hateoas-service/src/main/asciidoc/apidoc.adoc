@@ -1,0 +1,25 @@
+= Описание API по экзаменам
+
+== Методы
+
+|===
+|Метод | Назначение
+|`PUT`
+|Обновить сущность или ее состояние
+|===
+
+=== Сдача экзамена
+
+Можно обновить статус экзамена, присвоив ему статус *Passed*
+
+.request
+
+include::{snippets}\pass_exam\http-request.adoc[]
+
+.response
+
+include::{snippets}\pass_exam\http-response.adoc[]
+
+.response-fields
+
+include::{snippets}\pass_exam\response-fields.adoc[]
