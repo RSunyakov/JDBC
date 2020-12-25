@@ -4,21 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.itis.javalab.ttr</groupId>
+    <groupId>ru.kpfu.itis</groupId>
     <artifactId>annotations</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
-            <plugin>
+           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+               <version>3.8.1</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <showWarnings>true</showWarnings>
+                    <encoding>UTF-8</encoding>
+                   <!-- <generatedSourcesDirectory>
+                    /target/generated-sources
+                    </generatedSourcesDirectory>-->
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>annotations</id>
@@ -29,7 +32,7 @@
                         <configuration>
                             <proc>only</proc>
                             <annotationProcessors>
-                                <annotationProcessor>ru.itis.javalab.ttr.annotations.HtmlFormProcessor</annotationProcessor>
+                                <annotationProcessor>ru.kpfu.itis.annotations.HtmlProcessor</annotationProcessor>
                             </annotationProcessors>
                         </configuration>
                     </execution>
@@ -42,6 +45,12 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.30</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.auto.service/auto-service -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0-rc7</version>
         </dependency>
     </dependencies>
 

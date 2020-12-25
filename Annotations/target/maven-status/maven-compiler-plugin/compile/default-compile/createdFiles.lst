@@ -1,0 +1,9 @@
+ru\kpfu\itis\annotations\html\Form.class
+ru\kpfu\itis\annotations\configuration\FreemarkerConfig.class
+ru\kpfu\itis\annotations\annotation\HtmlForm.class
+ru\kpfu\itis\annotations\HtmlProcessor.class
+ru\kpfu\itis\annotations\annotation\HtmlInput.class
+ru\kpfu\itis\annotations\html\HtmlFormBuilder.class
+ru\kpfu\itis\annotations\model\User.class
+META-INF\services\javax.annotation.processing.Processor
+ru\kpfu\itis\annotations\html\Input.class
